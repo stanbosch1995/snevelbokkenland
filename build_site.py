@@ -467,6 +467,8 @@ def build_html():
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Snevelbokkenland – Carnavalsvereniging Heeswijk-Dinther</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <style>{CSS}</style>
 </head>
 <body>
@@ -1076,8 +1078,54 @@ var DEFAULTS_SPONSORS = [
 ];
 
 /* ─── LOCALSTORAGE ─── */
+/* ─── FIREBASE + CLOUDINARY CONFIG ─── */
+var _fbApp = firebase.initializeApp({{
+  apiKey: "AIzaSyBaM8OZ7aLUecg_qgoLTyv9LHIg5U6U3Yw",
+  authDomain: "snevelbokkenland.firebaseapp.com",
+  projectId: "snevelbokkenland",
+  storageBucket: "snevelbokkenland.firebasestorage.app",
+  messagingSenderId: "548323616366",
+  appId: "1:548323616366:web:8c694ec66bb49bfe9de87f"
+}});
+var db = firebase.firestore();
+var CLD_CLOUD = 'dysddinxd';
+var CLD_PRESET = 'snevelbokkenland';
+
+/* Upload afbeelding naar Cloudinary → geeft secure URL terug */
+async function uploadToCloudinary(file) {{
+  var fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLD_PRESET);
+  var res = await fetch('https://api.cloudinary.com/v1_1/' + CLD_CLOUD + '/image/upload', {{ method:'POST', body:fd }});
+  if (!res.ok) throw new Error('Cloudinary upload mislukt');
+  var data = await res.json();
+  return data.secure_url;
+}}
+
+/* Synchroniseer Firestore → localStorage zodat renderfuncties synchroon kunnen lezen */
+async function syncFromFirebase() {{
+  var keys = ['prins','jeugdprins','evenementen','merch','sponsors'];
+  await Promise.all(keys.map(async function(k) {{
+    try {{
+      var snap = await db.collection('site').doc(k).get();
+      if (snap.exists) {{
+        var data = snap.data();
+        var val = (data.items !== undefined) ? data.items : data;
+        localStorage.setItem('snevel_'+k, JSON.stringify(val));
+      }}
+    }} catch(e) {{ console.warn('Firebase sync mislukt voor', k, e); }}
+  }}));
+}}
+
+/* Lees uit localStorage (gevuld door syncFromFirebase) */
 function ld(k,d){{ try{{ var v=localStorage.getItem('snevel_'+k); return v?JSON.parse(v):d; }} catch(e){{ return d; }} }}
-function sd(k,v){{ localStorage.setItem('snevel_'+k,JSON.stringify(v)); }}
+
+/* Schrijf naar localStorage én Firestore */
+function sd(k,v){{
+  localStorage.setItem('snevel_'+k,JSON.stringify(v));
+  var firestoreVal = Array.isArray(v) ? {{items:v}} : v;
+  db.collection('site').doc(k).set(firestoreVal).catch(function(e){{ console.warn('Firestore write error:', e); }});
+}}
 
 /* ─── ROUTER ─── */
 var ROUTES = {{
@@ -1343,17 +1391,25 @@ function switchAdminTab(name,btn) {{
   document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
 }}
-function readImgFile(input, destId, previewId) {{
+async function readImgFile(input, destId, previewId) {{
   var file = input.files[0];
-  if(!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {{
+  if (!file) return;
+  var prev = document.getElementById(previewId);
+  var lbl = input.closest('label');
+  if (lbl) lbl.textContent = '⏳ Uploaden...';
+  if (prev) {{ prev.style.opacity = '0.4'; }}
+  try {{
+    var url = await uploadToCloudinary(file);
     var dest = document.getElementById(destId);
-    if(dest) dest.value = e.target.result;
-    var prev = document.getElementById(previewId);
-    if(prev) {{ prev.src = e.target.result; prev.style.display = 'block'; }}
-  }};
-  reader.readAsDataURL(file);
+    if (dest) dest.value = url;
+    if (prev) {{ prev.src = url; prev.style.display = 'block'; prev.style.opacity = '1'; }}
+    if (lbl) lbl.textContent = '✅ Geüpload';
+    setTimeout(function(){{ if(lbl) lbl.textContent = '📁 Afbeelding uploaden'; }}, 2000);
+  }} catch(e) {{
+    alert('Upload mislukt: ' + e.message);
+    if (prev) prev.style.opacity = '1';
+    if (lbl) lbl.textContent = '📁 Afbeelding uploaden';
+  }}
 }}
 function setAdminImgPreview(inputId, previewId) {{
   var val = (document.getElementById(inputId)||{{}}).value||'';
@@ -1516,8 +1572,10 @@ function escHtml(s) {{
 {SB_JS}
 
 /* ─── INIT ─── */
-document.addEventListener('DOMContentLoaded', function() {{
+document.addEventListener('DOMContentLoaded', async function() {{
   document.getElementById('footer-year').textContent = new Date().getFullYear();
+  /* Laad eerst data vanuit Firestore, dan pas de pagina renderen */
+  try {{ await syncFromFirebase(); }} catch(e) {{ console.warn('Firebase sync overgeslagen:', e); }}
   showPage(getHash());
 }});
 </script>
