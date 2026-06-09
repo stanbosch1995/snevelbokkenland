@@ -1,0 +1,15 @@
+# Lokale afbeeldingen (al ingebakken in index.html als base64)
+prins_images/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Downloads / tijdelijke bestanden
+*.csv
+Downloads/
+
+# OS
+Thumbs.db
+.DS_Store
