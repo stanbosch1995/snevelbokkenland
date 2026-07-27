@@ -962,15 +962,18 @@ var DEFAULTS_SPONSORS = [
 
 /* ─── LOCALSTORAGE ─── */
 /* ─── FIREBASE + CLOUDINARY CONFIG ─── */
-var _fbApp = firebase.initializeApp({
-  apiKey: "AIzaSyBaM8OZ7aLUecg_qgoLTyv9LHIg5U6U3Yw",
-  authDomain: "snevelbokkenland.firebaseapp.com",
-  projectId: "snevelbokkenland",
-  storageBucket: "snevelbokkenland.firebasestorage.app",
-  messagingSenderId: "548323616366",
-  appId: "1:548323616366:web:8c694ec66bb49bfe9de87f"
-});
-var db = firebase.firestore();
+var db = null;
+try {
+  firebase.initializeApp({
+    apiKey: "AIzaSyBaM8OZ7aLUecg_qgoLTyv9LHIg5U6U3Yw",
+    authDomain: "snevelbokkenland.firebaseapp.com",
+    projectId: "snevelbokkenland",
+    storageBucket: "snevelbokkenland.firebasestorage.app",
+    messagingSenderId: "548323616366",
+    appId: "1:548323616366:web:8c694ec66bb49bfe9de87f"
+  });
+  db = firebase.firestore();
+} catch(e) { console.warn('Firebase niet beschikbaar, gebruik localStorage:', e.message); }
 var CLD_CLOUD = 'dysddinxd';
 var CLD_PRESET = 'snevelbokkenland';
 
@@ -1202,7 +1205,7 @@ function renderEventDetail(id) {
   var hero = document.getElementById('event-hero-'+id);
   if(hero) {
     var bgStyle = (ev.foto && ev.foto.length > 10)
-      ? 'style="background-image:url(''+ev.foto+'')"'
+      ? 'style="background-image:url('+ev.foto+')"'
       : '';
     hero.innerHTML =
       '<div class="event-hero-bg" '+bgStyle+'></div>'+
@@ -1367,6 +1370,12 @@ function rteLink(editorId) {
   var url = prompt('URL (bijv. https://...):');
   if(url) document.execCommand('createLink', false, url);
 }
+function rteBtn(btn) {
+  var ed = btn.getAttribute('data-ed');
+  var cmd = btn.getAttribute('data-cmd');
+  if(cmd === 'link') rteLink(ed);
+  else rteCmd(ed, cmd);
+}
 function loadAdminEvents() {
   var evs=ld('evenementen',DEFAULTS_EVENEMENTEN);
   var html='';
@@ -1388,11 +1397,11 @@ function loadAdminEvents() {
         '<label>Beschrijving (HTML toegestaan)</label>'+
         '<div class="rte-wrap">'+
           '<div class="rte-toolbar">'+
-            '<button onclick="rteCmd('aev-desc-'+i+'','bold')"><b>B</b></button>'+
-            '<button onclick="rteCmd('aev-desc-'+i+'','italic')"><i>I</i></button>'+
-            '<button onclick="rteCmd('aev-desc-'+i+'','underline')"><u>U</u></button>'+
-            '<button onclick="rteLink('aev-desc-'+i+'')">&#128279;</button>'+
-            '<button onclick="rteCmd('aev-desc-'+i+'','insertUnorderedList')">&#8226; Lijst</button>'+
+            '<button onclick="rteBtn(this)" data-ed="aev-desc-'+i+'" data-cmd="bold"><b>B</b></button>'+
+            '<button onclick="rteBtn(this)" data-ed="aev-desc-'+i+'" data-cmd="italic"><i>I</i></button>'+
+            '<button onclick="rteBtn(this)" data-ed="aev-desc-'+i+'" data-cmd="underline"><u>U</u></button>'+
+            '<button onclick="rteBtn(this)" data-ed="aev-desc-'+i+'" data-cmd="link">&#128279;</button>'+
+            '<button onclick="rteBtn(this)" data-ed="aev-desc-'+i+'" data-cmd="insertUnorderedList">&#8226; Lijst</button>'+
           '</div>'+
           '<div class="rte-editor" id="aev-desc-'+i+'" contenteditable="true">'+ev.beschrijving+'</div>'+
         '</div>'+
@@ -1779,6 +1788,15 @@ document.addEventListener('DOMContentLoaded', function() {
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('footer-year').textContent = new Date().getFullYear();
+  showPage(getHash());
+});
+
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', async function() {
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+  /* Laad eerst data vanuit Firestore, dan pas de pagina renderen */
+  try { await syncFromFirebase(); } catch(e) { console.warn('Firebase sync overgeslagen:', e); }
   showPage(getHash());
 });
 
