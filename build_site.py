@@ -199,10 +199,37 @@ a{text-decoration:none;color:inherit}
 .divider{width:60px;height:4px;background:linear-gradient(90deg,#FFD700,#003DA5);border-radius:2px;margin:1rem 0 2rem}
 
 /* PRINS PAGE */
-.prins-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;padding:4rem 2rem;max-width:1100px;margin:0 auto}
-.prins-photo-wrap{position:relative}
-.prins-photo{width:100%;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.2)}
-.prins-badge{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);background:#FFD700;color:#003DA5;font-weight:900;font-size:.85rem;padding:.5rem 1.4rem;border-radius:999px;white-space:nowrap;box-shadow:0 4px 14px rgba(255,215,0,.5)}
+.prins-hero{background:linear-gradient(135deg,#001240 0%,#002a80 60%,#003DA5 100%);padding:4rem 2rem 5rem}
+.prins-hero-content{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;gap:3rem}
+.prins-hero-left{flex:1;color:#fff}
+.prins-hero-left .kicker{font-size:.9rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,215,0,.8);margin-bottom:.8rem}
+.prins-hero-left h1{font-size:2.8rem;font-weight:900;color:#FFD700;margin:.5rem 0 1rem;line-height:1.15;font-style:italic}
+.prins-hero-right{flex:0 0 auto;position:relative}
+.prins-portrait{width:300px;height:400px;object-fit:cover;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.5);border:3px solid rgba(255,215,0,.3)}
+.prins-badge{display:inline-block;background:#FFD700;color:#003DA5;font-weight:900;font-size:.85rem;padding:.5rem 1.4rem;border-radius:999px;white-space:nowrap;box-shadow:0 4px 14px rgba(255,215,0,.5);margin-top:1rem}
+.prins-article{max-width:860px;margin:0 auto;font-size:1.05rem;line-height:1.9;color:#333}
+.prins-article p{margin-bottom:1rem}
+
+/* RICH TEXT EDITOR */
+.rte-wrap{border:1.5px solid #dde3f0;border-radius:10px;overflow:hidden;background:#fff}
+.rte-toolbar{display:flex;gap:.3rem;padding:.5rem .7rem;background:#f5f7ff;border-bottom:1px solid #dde3f0;flex-wrap:wrap}
+.rte-toolbar button{{background:#fff;border:1px solid #c8d0e8;border-radius:6px;padding:.25rem .6rem;cursor:pointer;font-size:.9rem;color:#333;transition:background .15s}}
+.rte-toolbar button:hover{{background:#e8eeff}}
+.rte-editor{min-height:120px;padding:.8rem 1rem;outline:none;font-family:inherit;font-size:.95rem;line-height:1.7;color:#333}
+.rte-editor:focus{{background:#fafbff}}
+
+/* EVENEMENTEN HERO */
+.event-hero{position:relative;min-height:340px;display:flex;align-items:flex-end;background:linear-gradient(135deg,#001240,#002a80)}
+.event-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.45}
+.event-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,18,64,.92) 0%,rgba(0,42,128,.55) 60%,rgba(0,30,100,.3) 100%)}
+.event-hero-body{position:relative;z-index:2;padding:2.5rem 2rem 2rem;max-width:1100px;margin:0 auto;width:100%}
+.event-hero-body .kicker{font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,215,0,.85);margin-bottom:.6rem}
+.event-hero-body h1{font-size:2.6rem;font-weight:900;color:#fff;margin:.3rem 0 1rem;font-style:italic}
+.event-hero-badges{display:flex;flex-wrap:wrap;gap:.6rem}
+.event-hero-badge{background:rgba(255,255,255,.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.85rem;font-weight:600;padding:.4rem 1rem;border-radius:999px;display:flex;align-items:center;gap:.4rem}
+.event-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:2rem}
+.event-gallery img{width:100%;height:200px;object-fit:cover;border-radius:12px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.event-gallery img:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .prins-info{padding-top:1rem}
 .prins-info h1{font-size:2.4rem;font-weight:900;color:#003DA5;margin-bottom:.5rem}
 .prins-info .jaar-badge{display:inline-block;background:#003DA5;color:#FFD700;font-weight:800;font-size:.9rem;padding:.35rem 1rem;border-radius:999px;margin-bottom:1.2rem}
@@ -368,13 +395,18 @@ footer p{opacity:.7;font-size:.9rem;margin:.3rem 0}
 @media(max-width:768px){
   .hero-content{flex-direction:column;text-align:center}
   .hero-photo{width:260px;height:320px}
-  .prins-layout{grid-template-columns:1fr;gap:2rem}
   .vk-grid{grid-template-columns:1fr}
   .header-nav-bar{display:none}
   .hamburger-btn{display:flex;align-items:center}
   .events-grid{grid-template-columns:1fr}
   .home-agenda-grid{grid-template-columns:repeat(2,1fr)}
   .oud-prinsen-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+  .prins-hero-content{flex-direction:column-reverse;text-align:center}
+  .prins-portrait{width:220px;height:290px}
+  .prins-hero-left h1{font-size:2rem}
+  .event-hero{min-height:260px}
+  .event-hero-body h1{font-size:1.8rem}
+  .event-gallery{grid-template-columns:repeat(2,1fr)}
 }
 
 /* HOME SECTIONS */
@@ -628,40 +660,42 @@ def build_html():
 
 <!-- ═══════════════════════════ PAGE: PRINS ═══════════════════════════ -->
 <div class="page" id="page-prins">
-  <div class="page-banner">
-    <h1>&#128081; Prins(es) van Snevelbokkenland</h1>
-    <p>De hoogheid van ons carnavalsrijk</p>
+  <div class="prins-hero">
+    <div class="prins-hero-content">
+      <div class="prins-hero-left">
+        <div class="kicker">&#128081; Prins(es) van Snevelbokkenland</div>
+        <h1 id="prins-naam">Frank d'n Eerste</h1>
+        <div class="jaar-badge" id="prins-jaar-badge">Seizoen 2026</div>
+        <div class="prins-badge" id="prins-badge-jaar" style="margin-top:1.2rem">Prins 2026</div>
+      </div>
+      <div class="prins-hero-right">
+        <img id="prins-portrait-img" src="{PRINCE_PORTRAIT}" alt="Prins" class="prins-portrait">
+      </div>
+    </div>
   </div>
-  <div class="prins-layout">
-    <div class="prins-photo-wrap">
-      <img id="prins-portrait-img" src="{PRINCE_PORTRAIT}" alt="Prins" class="prins-photo">
-      <div class="prins-badge" id="prins-badge-jaar">Prins 2026</div>
-    </div>
-    <div class="prins-info">
-      <h1 id="prins-naam">Frank d'n Eerste</h1>
-      <div class="jaar-badge" id="prins-jaar-badge">Seizoen 2026</div>
-      <p id="prins-desc">Met trots presenteren wij onze prins voor carnaval 2026. Onder zijn bezielende leiding gaan wij er dit seizoen een onvergetelijk feest van maken. Vivat de Prins!</p>
-    </div>
+  <div class="section">
+    <div class="prins-article" id="prins-desc"></div>
   </div>
 </div>
 
 <!-- ═══════════════════════════ PAGE: JEUGDPRINS ═══════════════════════════ -->
 <div class="page" id="page-jeugdprins">
-  <div class="page-banner">
-    <h1>&#11088; Jeugdprins(es) van Snevelbokkenland</h1>
-    <p>De jonge hoogheid van ons carnavalsrijk</p>
+  <div class="prins-hero">
+    <div class="prins-hero-content">
+      <div class="prins-hero-left">
+        <div class="kicker">&#11088; Jeugdprins(es) van Snevelbokkenland</div>
+        <h1 id="jeugdprins-naam">Jeugdprins 2026</h1>
+        <div class="jaar-badge" id="jeugdprins-jaar-badge">Seizoen 2026</div>
+        <div class="prins-badge" id="jeugdprins-badge-jaar" style="margin-top:1.2rem">Jeugdprins 2026</div>
+      </div>
+      <div class="prins-hero-right">
+        <div id="jeugdprins-photo-ph" class="prins-portrait" style="background:linear-gradient(135deg,#e8eeff,#c8d8ff);display:flex;align-items:center;justify-content:center;font-size:5rem">&#11088;</div>
+        <img id="jeugdprins-portrait-img" src="" alt="Jeugdprins" class="prins-portrait" style="display:none">
+      </div>
+    </div>
   </div>
-  <div class="prins-layout">
-    <div class="prins-photo-wrap">
-      <div id="jeugdprins-photo-ph" style="width:100%;aspect-ratio:3/4;background:linear-gradient(135deg,#e8eeff,#c8d8ff);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:5rem">&#11088;</div>
-      <img id="jeugdprins-portrait-img" src="" alt="Jeugdprins" class="prins-photo" style="display:none">
-      <div class="prins-badge" id="jeugdprins-badge-jaar">Jeugdprins 2026</div>
-    </div>
-    <div class="prins-info">
-      <h1 id="jeugdprins-naam">Jeugdprins 2026</h1>
-      <div class="jaar-badge" id="jeugdprins-jaar-badge">Seizoen 2026</div>
-      <p id="jeugdprins-desc">De jeugdprins van Snevelbokkenland wordt elk jaar gekozen en vertegenwoordigt de jongere generatie van ons carnavalsrijk. Vivat de Jeugdprins!</p>
-    </div>
+  <div class="section">
+    <div class="prins-article" id="jeugdprins-desc"></div>
   </div>
 </div>
 
@@ -676,46 +710,31 @@ def build_html():
 
 <!-- ═══════════════════════════ PAGE: PRONKZITTING ═══════════════════════════ -->
 <div class="page" id="page-pronkzitting">
-  <div class="page-banner">
-    <h1>&#127881; Pronkzitting</h1>
-    <p id="pronkzitting-banner-sub">De feestelijke opening van het carnavalsseizoen</p>
-  </div>
+  <div class="event-hero" id="event-hero-pronkzitting"></div>
   <div class="event-detail" id="event-detail-pronkzitting"></div>
 </div>
 
 <!-- ═══════════════════════════ PAGE: OPTOCHT ═══════════════════════════ -->
 <div class="page" id="page-optocht">
-  <div class="page-banner">
-    <h1>&#127916; Optocht</h1>
-    <p id="optocht-banner-sub">De grote carnavalsoptocht door Heeswijk-Dinther</p>
-  </div>
+  <div class="event-hero" id="event-hero-optocht"></div>
   <div class="event-detail" id="event-detail-optocht"></div>
 </div>
 
 <!-- ═══════════════════════════ PAGE: ONTBIJTSHOW ═══════════════════════════ -->
 <div class="page" id="page-ontbijtshow">
-  <div class="page-banner">
-    <h1>&#9749; Ontbijtshow</h1>
-    <p id="ontbijtshow-banner-sub">Gezellig ontbijten met entertainment</p>
-  </div>
+  <div class="event-hero" id="event-hero-ontbijtshow"></div>
   <div class="event-detail" id="event-detail-ontbijtshow"></div>
 </div>
 
 <!-- ═══════════════════════════ PAGE: BOERENBRUILOFT ═══════════════════════════ -->
 <div class="page" id="page-boerenbruiloft">
-  <div class="page-banner">
-    <h1>&#128142; Boerenbruiloft</h1>
-    <p id="boerenbruiloft-banner-sub">Het traditionele boerenbruiloft feest</p>
-  </div>
+  <div class="event-hero" id="event-hero-boerenbruiloft"></div>
   <div class="event-detail" id="event-detail-boerenbruiloft"></div>
 </div>
 
 <!-- ═══════════════════════════ PAGE: SNEVELBOKKENPLUSBAL ═══════════════════════════ -->
 <div class="page" id="page-snevelbokkenplusbal">
-  <div class="page-banner">
-    <h1>&#127881; SnevelbokkenplusBal</h1>
-    <p id="snevelbokkenplusbal-banner-sub">Het exclusieve bal voor 50-plussers</p>
-  </div>
+  <div class="event-hero" id="event-hero-snevelbokkenplusbal"></div>
   <div class="event-detail" id="event-detail-snevelbokkenplusbal"></div>
 </div>
 
@@ -947,7 +966,19 @@ def build_html():
       <div class="admin-tab-content active" id="tab-prins">
         <div class="admin-field"><label>Naam prins/prinses</label><input id="ap-naam" placeholder="bijv. Frank I"></div>
         <div class="admin-field"><label>Jaar</label><input id="ap-jaar" placeholder="2026"></div>
-        <div class="admin-field"><label>Beschrijving</label><textarea id="ap-desc" rows="5"></textarea></div>
+        <div class="admin-field">
+          <label>Beschrijving (HTML toegestaan)</label>
+          <div class="rte-wrap">
+            <div class="rte-toolbar">
+              <button onclick="rteCmd('ap-desc','bold')" title="Vet"><b>B</b></button>
+              <button onclick="rteCmd('ap-desc','italic')" title="Cursief"><i>I</i></button>
+              <button onclick="rteCmd('ap-desc','underline')" title="Onderstrepen"><u>U</u></button>
+              <button onclick="rteLink('ap-desc')" title="Link">&#128279;</button>
+              <button onclick="rteCmd('ap-desc','insertUnorderedList')" title="Lijst">&#8226; Lijst</button>
+            </div>
+            <div class="rte-editor" id="ap-desc" contenteditable="true"></div>
+          </div>
+        </div>
         <div class="admin-field">
           <label>Foto</label>
           <img id="ap-foto-preview" class="admin-img-preview">
@@ -966,7 +997,19 @@ def build_html():
       <div class="admin-tab-content" id="tab-jeugdprins">
         <div class="admin-field"><label>Naam jeugdprins/prinses</label><input id="ajp-naam" placeholder="bijv. Jobbe & Aniek"></div>
         <div class="admin-field"><label>Jaar</label><input id="ajp-jaar" placeholder="2026"></div>
-        <div class="admin-field"><label>Beschrijving</label><textarea id="ajp-desc" rows="5"></textarea></div>
+        <div class="admin-field">
+          <label>Beschrijving (HTML toegestaan)</label>
+          <div class="rte-wrap">
+            <div class="rte-toolbar">
+              <button onclick="rteCmd('ajp-desc','bold')" title="Vet"><b>B</b></button>
+              <button onclick="rteCmd('ajp-desc','italic')" title="Cursief"><i>I</i></button>
+              <button onclick="rteCmd('ajp-desc','underline')" title="Onderstrepen"><u>U</u></button>
+              <button onclick="rteLink('ajp-desc')" title="Link">&#128279;</button>
+              <button onclick="rteCmd('ajp-desc','insertUnorderedList')" title="Lijst">&#8226; Lijst</button>
+            </div>
+            <div class="rte-editor" id="ajp-desc" contenteditable="true"></div>
+          </div>
+        </div>
         <div class="admin-field">
           <label>Foto</label>
           <img id="ajp-foto-preview" class="admin-img-preview">
@@ -1049,22 +1092,27 @@ var DEFAULTS_EVENEMENTEN = [
   {{ id:"pronkzitting", naam:"Pronkzitting", icon:"&#127881;",
      datum:"6 & 7 februari 2026", tijdstip:"Avondprogramma", locatie:"De Snevelbokkenstal (De Zaert), Heeswijk-Dinther",
      beschrijving:"Show, humor, muziek, gezelligheid, vermaak en (ont)spanning. De ingrediënten voor een carnavalesk pronkzittingsweekend! De Zaert wordt omgebouwd tot de vertrouwde Snevelbokkenstal. Kaarten kosten € 17,50 per persoon per avond.",
+     foto:"", afbeeldingen:[],
      programma:[["Inloop","Ontvangst met drankje"],["Opening","Officiële opening door Prins Frank I"],["Optreden","Dansmariekes en artiesten"],["Muziek","Livemuziek & feest"],["Sluiting","Feest tot in de late uurtjes"]] }},
   {{ id:"optocht", naam:"Optocht", icon:"&#127916;",
      datum:"15 februari 2026", tijdstip:"13:11 uur", locatie:"Start: Plein 1969, Heeswijk-Dinther",
      beschrijving:"De carnavalsoptocht 3.0 trekt door Heeswijk-Dinther. Met prachtige wagens, groepen en muziek is het een spektakel voor jong en oud. Inschrijving sluit op 11 februari 2026 om 17:00 uur.",
+     foto:"", afbeeldingen:[],
      programma:[["13:11","Start optocht bij Plein 1969"],["Route","Hoofdstraat – Flerusstraat – Graaf Wernerstraat – Irenestraat – Bernardstraat – Julianastraat – Torenstraat"],["Finish","Parkeerplaats Sporthal De Zaert"],["17:00 - 18:00","Prijsuitreiking bij De Zaert"],["Aansluitend","Feestavond in De Zaert"]] }},
   {{ id:"ontbijtshow", naam:"Ontbijtshow", icon:"&#9749;",
      datum:"16 februari 2026", tijdstip:"10:00 uur", locatie:"De Zaert, Heeswijk-Dinther",
      beschrijving:"Begin de laatste carnavalsdag gezellig met een heerlijk ontbijt én entertainment. De ontbijtshow is een vaste traditie waar jong en oud samenkomen voor een heerlijke ochtend vol gezelligheid.",
+     foto:"", afbeeldingen:[],
      programma:[["09:30","Inloop"],["10:00","Ontbijt met livemuziek"],["11:30","Show & entertainment"],["13:00","Einde"]] }},
   {{ id:"boerenbruiloft", naam:"Boerenbruiloft", icon:"&#128142;",
      datum:"Maandag carnaval 2026", tijdstip:"Vanaf 12:00 uur", locatie:"Café/zaal Stanserhorn, Heeswijk-Dinther",
      beschrijving:"De Boerenbruiloft 3.0 is hét carnavalsfeest van HDL! Twee bekende HDL-ers geven hun nephuwelijk voor iedereen. Met receptie, kindervertier, hapje eten, dienstenveiling en een overdonderende feestavond. BABS: Rob de Backer. Haal de klompen maar uit het vet!",
+     foto:"", afbeeldingen:[],
      programma:[["12:00","Inloop & receptie"],["Hapje eten","Inclusief maaltijd voor alle gasten"],["Diensten veiling","Kort en ludiek programma"],["Feestavond","Liveband, DJ en feestzanger tot in de late uurtjes"]] }},
   {{ id:"snevelbokkenplusbal", naam:"SnevelbokkenplusBal", icon:"&#127881;",
      datum:"1 februari 2026", tijdstip:"12:00 – 16:00 uur", locatie:"CC Servaes, Dinther",
      beschrijving:"Voor iedereen met een verstandelijke beperking uit HDL en omstreken. Gratis entree, 2 consumptiemuntjes bij binnenkomst. Met optredens, schminkhoek en fotomogelijkheden. Klapper dit jaar: William Burg! Aanmelden via snevelbokkenplusbal@gmail.com.",
+     foto:"", afbeeldingen:[],
      programma:[["12:00","Deuren open, ontvangst met consumptiemuntjes"],["Optredens","Verschillende acts, headliner: William Burg"],["Schminkhoek","Leuke schminkhoek aanwezig"],["Foto","Laat een mooie foto van jezelf maken"],["16:00","Einde"]] }}
 ];
 var DEFAULTS_MERCH = [
@@ -1266,7 +1314,8 @@ function renderPrins() {{
   setText('prins-naam', d.naam);
   setText('prins-badge-jaar', 'Prins '+d.jaar);
   setText('prins-jaar-badge', 'Seizoen '+d.jaar);
-  setText('prins-desc', d.desc);
+  var descEl = document.getElementById('prins-desc');
+  if(descEl) descEl.innerHTML = d.desc;
   var img = document.getElementById('prins-portrait-img');
   if(img && d.foto && d.foto.length > 10) img.src = d.foto;
 }}
@@ -1277,7 +1326,8 @@ function renderJeugdprins() {{
   setText('jeugdprins-naam', d.naam);
   setText('jeugdprins-badge-jaar', 'Jeugdprins '+d.jaar);
   setText('jeugdprins-jaar-badge', 'Seizoen '+d.jaar);
-  setText('jeugdprins-desc', d.desc);
+  var descEl = document.getElementById('jeugdprins-desc');
+  if(descEl) descEl.innerHTML = d.desc;
   var img = document.getElementById('jeugdprins-portrait-img');
   var ph  = document.getElementById('jeugdprins-photo-ph');
   if(d.foto && d.foto.length > 10) {{
@@ -1312,6 +1362,28 @@ function renderEventDetail(id) {{
   var ev = null;
   for(var i=0;i<evs.length;i++) {{ if(evs[i].id===id) {{ ev=evs[i]; break; }} }}
   if(!ev) return;
+
+  /* Hero sectie */
+  var hero = document.getElementById('event-hero-'+id);
+  if(hero) {{
+    var bgStyle = (ev.foto && ev.foto.length > 10)
+      ? 'style="background-image:url(\''+ev.foto+'\')"'
+      : '';
+    hero.innerHTML =
+      '<div class="event-hero-bg" '+bgStyle+'></div>'+
+      '<div class="event-hero-overlay"></div>'+
+      '<div class="event-hero-body">'+
+        '<div class="kicker">'+ev.icon+' Evenement</div>'+
+        '<h1>'+ev.naam+'</h1>'+
+        '<div class="event-hero-badges">'+
+          '<span class="event-hero-badge">&#128197; '+ev.datum+'</span>'+
+          '<span class="event-hero-badge">&#128336; '+ev.tijdstip+'</span>'+
+          '<span class="event-hero-badge">&#128205; '+ev.locatie.split(',')[0]+'</span>'+
+        '</div>'+
+      '</div>';
+  }}
+
+  /* Detail sectie */
   var el = document.getElementById('event-detail-'+id);
   if(!el) return;
   var progHtml = '';
@@ -1322,15 +1394,21 @@ function renderEventDetail(id) {{
     }});
     progHtml += '</div>';
   }}
+  var galHtml = '';
+  if(ev.afbeeldingen && ev.afbeeldingen.length) {{
+    galHtml = '<h2 style="margin-top:2.5rem">&#128247; Sfeerbeelden</h2><div class="event-gallery">';
+    ev.afbeeldingen.forEach(function(url) {{
+      if(url && url.length > 10) galHtml += '<img src="'+url+'" alt="sfeerbeeld" loading="lazy">';
+    }});
+    galHtml += '</div>';
+  }}
   el.innerHTML =
-    '<div class="event-detail-meta">' +
-    '<div class="event-meta-badge"><span class="icon">&#128197;</span>'+ev.datum+'</div>' +
-    '<div class="event-meta-badge"><span class="icon">&#128336;</span>'+ev.tijdstip+'</div>' +
-    '<div class="event-meta-badge"><span class="icon">&#128205;</span>'+ev.locatie+'</div>' +
-    '</div>' +
-    '<h2>Over het evenement</h2><p>'+ev.beschrijving+'</p>' +
-    progHtml +
-    '<div style="margin-top:2rem"><button class="btn-blue btn-sm" data-nav="evenementen" onclick="navigate(this.dataset.nav)">&#8592; Alle evenementen</button></div>';
+    '<div class="section">'+
+    '<h2>Over het evenement</h2>'+
+    '<div style="font-size:1.05rem;line-height:1.9;color:#333">'+ev.beschrijving+'</div>'+
+    galHtml + progHtml +
+    '<div style="margin-top:2rem"><button class="btn-blue btn-sm" data-nav="evenementen" onclick="navigate(this.dataset.nav)">&#8592; Alle evenementen</button></div>'+
+    '</div>';
 }}
 
 /* ─── RENDER MERCH ─── */
@@ -1420,13 +1498,13 @@ function loadAdminForms() {{
   var p=ld('prins',DEFAULTS_PRINS);
   document.getElementById('ap-naam').value=p.naam;
   document.getElementById('ap-jaar').value=p.jaar;
-  document.getElementById('ap-desc').value=p.desc;
+  document.getElementById('ap-desc').innerHTML=p.desc;
   document.getElementById('ap-foto').value=p.foto||'';
   setAdminImgPreview('ap-foto','ap-foto-preview');
   var jp=ld('jeugdprins',DEFAULTS_JEUGDPRINS);
   document.getElementById('ajp-naam').value=jp.naam;
   document.getElementById('ajp-jaar').value=jp.jaar;
-  document.getElementById('ajp-desc').value=jp.desc;
+  document.getElementById('ajp-desc').innerHTML=jp.desc;
   document.getElementById('ajp-foto').value=jp.foto||'';
   setAdminImgPreview('ajp-foto','ajp-foto-preview');
   loadAdminEvents();
@@ -1434,22 +1512,67 @@ function loadAdminForms() {{
   loadAdminSponsors();
 }}
 function savePrins() {{
-  sd('prins',{{ naam:document.getElementById('ap-naam').value, jaar:document.getElementById('ap-jaar').value, desc:document.getElementById('ap-desc').value, foto:document.getElementById('ap-foto').value }});
+  sd('prins',{{ naam:document.getElementById('ap-naam').value, jaar:document.getElementById('ap-jaar').value, desc:document.getElementById('ap-desc').innerHTML, foto:document.getElementById('ap-foto').value }});
   flash('ap-msg');
 }}
 function saveJeugdprins() {{
-  sd('jeugdprins',{{ naam:document.getElementById('ajp-naam').value, jaar:document.getElementById('ajp-jaar').value, desc:document.getElementById('ajp-desc').value, foto:document.getElementById('ajp-foto').value }});
+  sd('jeugdprins',{{ naam:document.getElementById('ajp-naam').value, jaar:document.getElementById('ajp-jaar').value, desc:document.getElementById('ajp-desc').innerHTML, foto:document.getElementById('ajp-foto').value }});
   flash('ajp-msg');
+}}
+
+/* ─── RICH TEXT EDITOR ─── */
+function rteCmd(editorId, cmd) {{
+  var el = document.getElementById(editorId);
+  if(el) el.focus();
+  document.execCommand(cmd, false, null);
+}}
+function rteLink(editorId) {{
+  var el = document.getElementById(editorId);
+  if(el) el.focus();
+  var url = prompt('URL (bijv. https://...):');
+  if(url) document.execCommand('createLink', false, url);
 }}
 function loadAdminEvents() {{
   var evs=ld('evenementen',DEFAULTS_EVENEMENTEN);
   var html='';
   evs.forEach(function(ev,i) {{
+    var hasFoto = ev.foto && ev.foto.length > 10;
+    var imgs = ev.afbeeldingen || [];
+    var imgsHtml = '';
+    imgs.forEach(function(url,j) {{
+      imgsHtml += '<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem">'+
+        '<img src="'+escHtml(url)+'" style="height:48px;width:64px;object-fit:cover;border-radius:6px">'+
+        '<button onclick="delEvImg('+i+','+j+')" style="background:#fee;border:1px solid #fcc;border-radius:6px;padding:.2rem .6rem;cursor:pointer;color:#c00">&#10005;</button>'+
+      '</div>';
+    }});
     html+='<div class="admin-event-block"><h4>'+ev.icon+' '+ev.naam+'</h4>'+
-      '<div class="admin-field"><label>Datum</label><input id="aev-datum-'+i+'" value="'+ev.datum+'"></div>'+
-      '<div class="admin-field"><label>Tijdstip</label><input id="aev-tijd-'+i+'" value="'+ev.tijdstip+'"></div>'+
-      '<div class="admin-field"><label>Locatie</label><input id="aev-loc-'+i+'" value="'+ev.locatie+'"></div>'+
-      '<div class="admin-field"><label>Beschrijving</label><textarea id="aev-desc-'+i+'">'+ev.beschrijving+'</textarea></div>'+
+      '<div class="admin-field"><label>Datum</label><input id="aev-datum-'+i+'" value="'+escHtml(ev.datum)+'"></div>'+
+      '<div class="admin-field"><label>Tijdstip</label><input id="aev-tijd-'+i+'" value="'+escHtml(ev.tijdstip)+'"></div>'+
+      '<div class="admin-field"><label>Locatie</label><input id="aev-loc-'+i+'" value="'+escHtml(ev.locatie)+'"></div>'+
+      '<div class="admin-field">'+
+        '<label>Beschrijving (HTML toegestaan)</label>'+
+        '<div class="rte-wrap">'+
+          '<div class="rte-toolbar">'+
+            '<button onclick="rteCmd(\'aev-desc-'+i+'\',\'bold\')"><b>B</b></button>'+
+            '<button onclick="rteCmd(\'aev-desc-'+i+'\',\'italic\')"><i>I</i></button>'+
+            '<button onclick="rteCmd(\'aev-desc-'+i+'\',\'underline\')"><u>U</u></button>'+
+            '<button onclick="rteLink(\'aev-desc-'+i+'\')">&#128279;</button>'+
+            '<button onclick="rteCmd(\'aev-desc-'+i+'\',\'insertUnorderedList\')">&#8226; Lijst</button>'+
+          '</div>'+
+          '<div class="rte-editor" id="aev-desc-'+i+'" contenteditable="true">'+ev.beschrijving+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="admin-field"><label>Omslagfoto (hero achtergrond)</label>'+
+        '<img id="aev-foto-prev-'+i+'" class="admin-img-preview" src="'+(hasFoto?escHtml(ev.foto):'')+'" style="'+(hasFoto?'display:block':'display:none')+'">'+
+        '<div class="upload-row">'+
+          '<label class="btn-upload">&#128193; Upload<input type="file" accept="image/*" style="display:none" data-dest="aev-foto-'+i+'" data-prev="aev-foto-prev-'+i+'" onchange="readImgFile(this,this.dataset.dest,this.dataset.prev)"></label>'+
+          '<input id="aev-foto-'+i+'" type="text" placeholder="of URL..." value="'+escHtml(ev.foto||'')+'">'+
+        '</div>'+
+      '</div>'+
+      '<div class="admin-field"><label>Extra afbeeldingen (sfeerbeelden)</label>'+
+        '<div id="aev-imgs-'+i+'">'+imgsHtml+'</div>'+
+        '<label class="btn-upload" style="margin-top:.5rem">&#128193; Afbeelding toevoegen<input type="file" accept="image/*" style="display:none" data-evid="'+i+'" onchange="addEvImg(this)"></label>'+
+      '</div>'+
     '</div>';
   }});
   document.getElementById('admin-events-blocks').innerHTML=html;
@@ -1461,12 +1584,41 @@ function saveEvenementen() {{
     var t=document.getElementById('aev-tijd-'+i);
     var l=document.getElementById('aev-loc-'+i);
     var b=document.getElementById('aev-desc-'+i);
+    var f=document.getElementById('aev-foto-'+i);
     if(d) ev.datum=d.value;
     if(t) ev.tijdstip=t.value;
     if(l) ev.locatie=l.value;
-    if(b) ev.beschrijving=b.value;
+    if(b) ev.beschrijving=b.innerHTML;
+    if(f) ev.foto=f.value;
+    /* afbeeldingen worden live bijgehouden via addEvImg/delEvImg */
   }});
   sd('evenementen',evs); flash('ae-msg');
+}}
+async function addEvImg(input) {{
+  var i = input.dataset.evid;
+  var file = input.files[0];
+  if(!file) return;
+  var lbl = input.closest('label');
+  if(lbl) lbl.textContent = '⏳ Uploaden...';
+  try {{
+    var url = await uploadToCloudinary(file);
+    var evs = ld('evenementen', DEFAULTS_EVENEMENTEN);
+    if(!evs[i].afbeeldingen) evs[i].afbeeldingen = [];
+    evs[i].afbeeldingen.push(url);
+    sd('evenementen', evs);
+    loadAdminEvents();
+  }} catch(e) {{
+    alert('Upload mislukt: '+e.message);
+    if(lbl) lbl.textContent = '📁 Afbeelding toevoegen';
+  }}
+}}
+function delEvImg(evIdx, imgIdx) {{
+  var evs = ld('evenementen', DEFAULTS_EVENEMENTEN);
+  if(evs[evIdx] && evs[evIdx].afbeeldingen) {{
+    evs[evIdx].afbeeldingen.splice(imgIdx, 1);
+    sd('evenementen', evs);
+    loadAdminEvents();
+  }}
 }}
 function loadAdminMerch() {{
   var items=ld('merch',DEFAULTS_MERCH);
